@@ -35,12 +35,16 @@ const TradingModal = ({
 }: TradingModalProps) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-      <div className="bg-base-200 p-8 rounded-lg w-full max-w-md">
-        <div className="flex justify-between items-center mb-4">
+      <div className="bg-base-200 p-6 pt-4 rounded-lg w-full max-w-md max-h-[90vh] overflow-y-auto">
+        <div className="flex justify-between items-center mb-4 py-2">
           <h3 className="text-xl font-bold">
             Trade {selectedCrypto.name} ({selectedCrypto.symbol})
           </h3>
-          <button className="btn btn-sm btn-circle" onClick={() => setShowTradingModal(false)}>
+          <button
+            className="btn btn-circle btn-sm btn-error text-white font-bold"
+            onClick={() => setShowTradingModal(false)}
+            aria-label="Close"
+          >
             ✕
           </button>
         </div>
@@ -52,9 +56,12 @@ const TradingModal = ({
             </div>
           </div>
           <div>
-            <p className="text-2xl font-bold">${selectedCrypto.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
-            <p className={selectedCrypto.priceChange24h >= 0 ? 'text-green-500' : 'text-red-500'}>
-              {selectedCrypto.priceChange24h >= 0 ? '+' : ''}{selectedCrypto.priceChange24h.toFixed(2)}%
+            <p className="text-2xl font-bold">
+              ${selectedCrypto.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            </p>
+            <p className={selectedCrypto.priceChange24h >= 0 ? "text-green-500" : "text-red-500"}>
+              {selectedCrypto.priceChange24h >= 0 ? "+" : ""}
+              {selectedCrypto.priceChange24h.toFixed(2)}%
             </p>
           </div>
         </div>
@@ -67,7 +74,7 @@ const TradingModal = ({
             type="number"
             className="input input-bordered w-full"
             value={tradeAmount}
-            onChange={(e) => setTradeAmount(e.target.value)}
+            onChange={e => setTradeAmount(e.target.value)}
             min="0"
           />
         </div>
@@ -82,7 +89,7 @@ const TradingModal = ({
               min="1"
               max="10"
               value={leverage}
-              onChange={(e) => setLeverage(parseInt(e.target.value))}
+              onChange={e => setLeverage(parseInt(e.target.value))}
               className="range range-primary range-md mr-4"
             />
             <span className="text-lg font-bold">{leverage}x</span>
@@ -95,14 +102,14 @@ const TradingModal = ({
           </label>
           <div className="flex space-x-4">
             <button
-              className={`btn flex-1 ${tradeDirection === 'long' ? 'btn-success' : 'btn-outline'}`}
-              onClick={() => setTradeDirection('long')}
+              className={`btn flex-1 ${tradeDirection === "long" ? "btn-success" : "btn-outline"}`}
+              onClick={() => setTradeDirection("long")}
             >
               Long
             </button>
             <button
-              className={`btn flex-1 ${tradeDirection === 'short' ? 'btn-error' : 'btn-outline'}`}
-              onClick={() => setTradeDirection('short')}
+              className={`btn flex-1 ${tradeDirection === "short" ? "btn-error" : "btn-outline"}`}
+              onClick={() => setTradeDirection("short")}
             >
               Short
             </button>
@@ -121,10 +128,14 @@ const TradingModal = ({
             <p className="text-right">${(parseFloat(tradeAmount || "0") * leverage).toLocaleString()}</p>
             <p>Est. Liquidation Price:</p>
             <p className="text-right">
-              ${tradeDirection === 'long' 
-                ? (selectedCrypto.price * (1 - (1 / leverage) * 0.95)).toLocaleString(undefined, { maximumFractionDigits: 2 })
-                : (selectedCrypto.price * (1 + (1 / leverage) * 0.95)).toLocaleString(undefined, { maximumFractionDigits: 2 })
-              }
+              $
+              {tradeDirection === "long"
+                ? (selectedCrypto.price * (1 - (1 / leverage) * 0.95)).toLocaleString(undefined, {
+                    maximumFractionDigits: 2,
+                  })
+                : (selectedCrypto.price * (1 + (1 / leverage) * 0.95)).toLocaleString(undefined, {
+                    maximumFractionDigits: 2,
+                  })}
             </p>
           </div>
         </div>
@@ -133,12 +144,12 @@ const TradingModal = ({
           <button className="btn btn-outline flex-1" onClick={() => setShowTradingModal(false)}>
             Cancel
           </button>
-          <button 
-            className={`btn flex-1 ${tradeDirection === 'long' ? 'btn-success' : 'btn-error'}`}
+          <button
+            className={`btn flex-1 ${tradeDirection === "long" ? "btn-success" : "btn-error"}`}
             onClick={openPosition}
             disabled={parseFloat(tradeAmount) <= 0}
           >
-            {tradeDirection === 'long' ? 'Buy / Long' : 'Sell / Short'}
+            {tradeDirection === "long" ? "Buy / Long" : "Sell / Short"}
           </button>
         </div>
       </div>
