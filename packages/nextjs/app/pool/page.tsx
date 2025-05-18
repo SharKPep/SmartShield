@@ -43,10 +43,10 @@ const PoolPage = () => {
       expanded: false,
     },
     {
-      name: "Agent投资池 (Level 2)",
+      name: "Agent收益池 (Level 2)",
       description: "超过未平仓金额的合约保证金部分流动性，长期积累获取分红",
       balance: 42500,
-      apy: 8.2,
+      apy: 0,
       totalInsured: 125000,
       level: 2,
       color: "purple",
@@ -144,11 +144,6 @@ const PoolPage = () => {
                 <div className="stat">
                   <div className="stat-title">当前余额</div>
                   <div className="stat-value text-primary">${pool.balance.toLocaleString()}</div>
-                </div>
-
-                <div className="stat">
-                  <div className="stat-title">总保险金额</div>
-                  <div className="stat-value text-secondary">${pool.totalInsured.toLocaleString()}</div>
                 </div>
               </div>
 

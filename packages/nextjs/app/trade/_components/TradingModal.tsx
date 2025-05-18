@@ -2,7 +2,7 @@
 
 import { Dispatch, SetStateAction, useState } from "react";
 
-const insuranceFeePercentage = 0.1;
+const insuranceFeePercentage = 0.07; // 7%
 
 type Cryptocurrency = {
   symbol: string;
@@ -141,7 +141,9 @@ const TradingModal = ({
               checked={setHasInsurance ? hasInsurance : localHasInsurance}
               onChange={e => handleInsuranceChange(e.target.checked)}
             />
-            <span className="label-text">Add Liquidation Insurance (10% of margin)</span>
+            <span className="label-text">
+              Add Liquidation Insurance ({(insuranceFeePercentage * 100).toFixed(0)}% of margin)
+            </span>
           </label>
           {(setHasInsurance ? hasInsurance : localHasInsurance) && (
             <div className="mt-2 text-sm bg-base-100 p-2 rounded-md">
