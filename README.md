@@ -1,80 +1,61 @@
-# 🏗 Scaffold-ETH 2
+# 🏗 Build with [Scaffold-ETH 2](https://github.com/scaffold-eth/scaffold-eth-2)
 
-<h4 align="center">
-  <a href="https://docs.scaffoldeth.io">Documentation</a> |
-  <a href="https://scaffoldeth.io">Website</a>
-</h4>
+Smart Shield 项目介绍
+一、项目概述
+Smart Shield 是一个专为杠杆比例不超过五倍的永续合约交易者设计的链上保险服务平台。用户通过一次性支付保险费，即可获得为期 一周 的爆仓保护。保险机制与三层流动性池相结合，实现风险隔离、收益共享、流动性循环。
 
-🧪 An open-source, up-to-date toolkit for building decentralized applications (dapps) on the Ethereum blockchain. It's designed to make it easier for developers to create and deploy smart contracts and build user interfaces that interact with those contracts.
+二、保险机制
+每个自然周起始时（UTC 时间周一 00:00），平台自动评估用户是否遭遇爆仓，若发生爆仓，则根据其所缴保险金在所有爆仓用户中的占比进行赔付，最多不超过其保证金金额。
 
-⚙️ Built using NextJS, RainbowKit, Hardhat, Wagmi, Viem, and Typescript.
+中途平仓的仓位不获得补偿。
 
-- ✅ **Contract Hot Reload**: Your frontend auto-adapts to your smart contract as you edit it.
-- 🪝 **[Custom hooks](https://docs.scaffoldeth.io/hooks/)**: Collection of React hooks wrapper around [wagmi](https://wagmi.sh/) to simplify interactions with smart contracts with typescript autocompletion.
-- 🧱 [**Components**](https://docs.scaffoldeth.io/components/): Collection of common web3 components to quickly build your frontend.
-- 🔥 **Burner Wallet & Local Faucet**: Quickly test your application with a burner wallet and local faucet.
-- 🔐 **Integration with Wallet Providers**: Connect to different wallet providers and interact with the Ethereum network.
+未及时续费的用户，保险自动失效。
 
-![Debug Contracts tab](https://github.com/scaffold-eth/scaffold-eth-2/assets/55535804/b237af0c-5027-4849-a5c1-2e31495cccb1)
+三、保险费用标准
+5x 杠杆下：每周收取 7%保证金 的保险费，用户一次性支付，以保障未来一周。
 
-## Requirements
+保费以 ERC20 支付，资金将流入系统的保险赔偿池。
 
-Before you begin, you need to install the following tools:
+四、流动性池机制
+1. Level 0 – 保险赔偿池
+接收所有用户支付的保险费用。
 
-- [Node (>= v20.18.3)](https://nodejs.org/en/download/)
-- Yarn ([v1](https://classic.yarnpkg.com/en/docs/install/) or [v2+](https://yarnpkg.com/getting-started/install))
-- [Git](https://git-scm.com/downloads)
+若用户未爆仓且平仓，保险金将转入 Level 0 Agent 投资池。
 
-## Quickstart
+2. Level 1 Agent – 盈利累积池
+接收 Level 0 的投资收益与赔付后剩余资金。
 
-To get started with Scaffold-ETH 2, follow the steps below:
+获取稳定收益，平台可从收益中抽成，剩余资金按用户占比进行周期性分红。
 
-1. Install dependencies if it was skipped in CLI:
+3. Level 2 Agent – 长期积累池
+累计超出在保合约金额的流动性。
 
-```
-cd my-dapp-example
-yarn install
-```
+不主动使用，持续积累以激励保险用户，提供额外红利分配。
 
-2. Run a local network in the first terminal:
+五、资金流动路径
+用户支付保费 → Level 0 赔偿池
 
-```
-yarn chain
-```
+AI 投资获利 → Level 1 Agent 盈利池
 
-This command starts a local Ethereum network using Hardhat. The network runs on your local machine and can be used for testing and development. You can customize the network configuration in `packages/hardhat/hardhat.config.ts`.
+超额流动性 → Level 2 Agent 长期积累
 
-3. On a second terminal, deploy the test contract:
+六、核心优势
+类型
 
-```
-yarn deploy
-```
+优势描述
 
-This command deploys a test smart contract to the local network. The contract is located in `packages/hardhat/contracts` and can be modified to suit your needs. The `yarn deploy` command uses the deploy script located in `packages/hardhat/deploy` to deploy the contract to the network. You can also customize the deploy script.
+用户端
 
-4. On a third terminal, start your NextJS app:
+在获取爆仓保障的同时，未来可获得分红收益，变被动为主动。
 
-```
-yarn start
-```
+流动性管理
 
-Visit your app on: `http://localhost:3000`. You can interact with your smart contract using the `Debug Contracts` page. You can tweak the app config in `packages/nextjs/scaffold.config.ts`.
+无需平台预存资金，保险金驱动流动性和投资循环。
 
-Run smart contract test with `yarn hardhat:test`
+投资逻辑
 
-- Edit your smart contracts in `packages/hardhat/contracts`
-- Edit your frontend homepage at `packages/nextjs/app/page.tsx`. For guidance on [routing](https://nextjs.org/docs/app/building-your-application/routing/defining-routes) and configuring [pages/layouts](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts) checkout the Next.js documentation.
-- Edit your deployment scripts in `packages/hardhat/deploy`
+利用 AI Agent 实现保险金的动态增值与风险隔离。
 
+分红机制
 
-## Documentation
-
-Visit our [docs](https://docs.scaffoldeth.io) to learn how to start building with Scaffold-ETH 2.
-
-To know more about its features, check out our [website](https://scaffoldeth.io).
-
-## Contributing to Scaffold-ETH 2
-
-We welcome contributions to Scaffold-ETH 2!
-
-Please see [CONTRIBUTING.MD](https://github.com/scaffold-eth/scaffold-eth-2/blob/main/CONTRIBUTING.md) for more information and guidelines for contributing to Scaffold-ETH 2.
+分红随时间积累，激励长期参与，提高平台粘性与复投率。
